@@ -7,6 +7,7 @@ export interface Article {
   publishDate: string;
   author: string;
   heroGradient: string;
+  heroImage: string;
   content: string[];
   pullQuote?: string;
   relatedGames: string[];
@@ -24,6 +25,7 @@ export const articles: Article[] = [
     author: "NEONARCADE EDITORIAL",
     heroGradient:
       "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+    heroImage: "/images/article-browser-gaming.jpg",
     content: [
       "The story of browser gaming is the story of the internet itself. In the earliest days of the web, before app stores and digital distribution, a small but revolutionary medium was taking shape inside web browsers — games that anyone could play, anywhere, without installing a single file.",
       "In the late 1990s, a small plugin called Macromedia Flash transformed the web from a static document viewer into a vibrant playground. Suddenly, developers could create interactive experiences that ran on virtually any computer with an internet connection. Games like Alien Hominid, N, and Line Rider became cultural phenomena, shared through forums and passed between friends like digital samizdat.",
@@ -46,6 +48,7 @@ export const articles: Article[] = [
     author: "NEONARCADE EDITORIAL",
     heroGradient:
       "linear-gradient(135deg, #1a0a2e 0%, #2d1b69 50%, #11001c 100%)",
+    heroImage: "/images/article-arcade.jpg",
     content: [
       "The golden age of arcade gaming began with Space Invaders in 1978. Tomohiro Nishikado's creation didn't just launch a game — it launched a cultural phenomenon. In Japan, the game caused a nationwide coin shortage. In America, it transformed dingy bars and pizza parlors into neon-lit cathedrals of competition.",
       "By 1982, the arcade industry was generating $8 billion in quarters — more than the entire American film industry and pop music combined. Pac-Man fever swept the nation. Donkey Kong introduced the world to a plumber named Mario. Every shopping mall, convenience store, and laundromat had a row of machines glowing in the corner.",
@@ -67,6 +70,7 @@ export const articles: Article[] = [
     author: "NEONARCADE EDITORIAL",
     heroGradient:
       "linear-gradient(135deg, #0a1628 0%, #1a2332 50%, #0d1b2a 100%)",
+    heroImage: "/images/article-racing.jpg",
     content: [
       "Racing games have always been at the frontier of gaming technology. From the earliest electromechanical arcade cabinets to today's photorealistic simulations, the genre has consistently pushed the boundaries of what hardware could achieve. Speed, it turns out, is the ultimate benchmark.",
       "Pole Position (1982) introduced rear-view perspective and a qualifying lap system that was revolutionary for its time. The game's pseudo-3D rendering technique became the template for an entire generation of racing titles. Outrun (1986) took the formula further with sprite scaling that created an illusion of depth that still holds up today.",
@@ -88,6 +92,7 @@ export const articles: Article[] = [
     author: "NEONARCADE EDITORIAL",
     heroGradient:
       "linear-gradient(135deg, #0a2818 0%, #1a3a2a 50%, #0d2b1a 100%)",
+    heroImage: "/images/article-multiplayer.jpg",
     content: [
       "The first networked game, Spacewar!, ran on PDP-1 computers in 1962. Two players, each controlling a spaceship, competed on a single shared screen. It was primitive by any modern standard, but it contained the seed of a revolution — the idea that games could be shared experiences.",
       "MUDs (Multi-User Dungeons) in the 1980s proved that shared worlds were compelling. Players connected via text terminals to explore virtual dungeons together, forming alliances, battling monsters, and creating communities that transcended geography. These text-based worlds were the ancestors of every MMO that followed.",

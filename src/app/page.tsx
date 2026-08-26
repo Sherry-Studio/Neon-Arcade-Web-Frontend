@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import MagneticButton from "@/components/ui/MagneticButton";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import HorizontalScroll from "@/components/ui/HorizontalScroll";
@@ -7,11 +8,11 @@ import Timeline from "@/components/Timeline";
 import { articles } from "@/lib/articles";
 
 const discoverGames = [
-  { n: "01", cat: "ACTION", title: "Cyber Runner", tagline: "Dash through neon-lit skylines.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%)" },
-  { n: "02", cat: "RACING", title: "Neon Drift", tagline: "Own every corner.", gradient: "linear-gradient(135deg, #2d1b2e 0%, #1a0a2e 55%, #16213e 100%)" },
-  { n: "03", cat: "PUZZLE", title: "Grid Wars", tagline: "Outthink the grid.", gradient: "linear-gradient(135deg, #0f1f0f 0%, #1a2e1a 55%, #0a1a0a 100%)" },
-  { n: "04", cat: "STEALTH", title: "Shadow Protocol", tagline: "Move unseen.", gradient: "linear-gradient(135deg, #14213d 0%, #1a1a2e 55%, #0a0a14 100%)" },
-  { n: "05", cat: "ARCADE", title: "Pixel Blaster", tagline: "Retro firepower, modern edge.", gradient: "linear-gradient(135deg, #1f1a0a 0%, #2e1f0f 55%, #1a0f0a 100%)" },
+  { n: "01", cat: "ACTION", title: "Cyber Runner", tagline: "Dash through neon-lit skylines.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%)", img: "/images/cyber-runner.jpg" },
+  { n: "02", cat: "RACING", title: "Neon Drift", tagline: "Own every corner.", gradient: "linear-gradient(135deg, #2d1b2e 0%, #1a0a2e 55%, #16213e 100%)", img: "/images/neon-drift.jpg" },
+  { n: "03", cat: "PUZZLE", title: "Grid Wars", tagline: "Outthink the grid.", gradient: "linear-gradient(135deg, #0f1f0f 0%, #1a2e1a 55%, #0a1a0a 100%)", img: "/images/grid-wars.jpg" },
+  { n: "04", cat: "STEALTH", title: "Shadow Protocol", tagline: "Move unseen.", gradient: "linear-gradient(135deg, #14213d 0%, #1a1a2e 55%, #0a0a14 100%)", img: "/images/shadow-protocol.jpg" },
+  { n: "05", cat: "ARCADE", title: "Pixel Blaster", tagline: "Retro firepower, modern edge.", gradient: "linear-gradient(135deg, #1f1a0a 0%, #2e1f0f 55%, #1a0f0a 100%)", img: "/images/pixel-blaster.jpg" },
 ];
 
 export default function HomePage() {
@@ -103,8 +104,16 @@ export default function HomePage() {
             className="group relative block aspect-[16/10] w-full overflow-hidden md:aspect-[21/9]"
           >
             <div
-              className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+              className="absolute inset-0"
               style={{ background: "linear-gradient(135deg, #0f0c29 0%, #16213e 45%, #0f3460 100%)" }}
+            />
+            <Image
+              src="/images/cyber-runner.jpg"
+              alt="Cyber Runner"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
 
@@ -147,8 +156,15 @@ export default function HomePage() {
                 className="group relative aspect-[3/4] w-[78vw] shrink-0 snap-start overflow-hidden sm:w-[360px]"
               >
                 <div
-                  className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="absolute inset-0"
                   style={{ background: game.gradient }}
+                />
+                <Image
+                  src={game.img}
+                  alt={game.title}
+                  fill
+                  sizes="(max-width: 640px) 78vw, 360px"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 <div className="absolute inset-0 flex flex-col justify-between p-6">
@@ -221,10 +237,17 @@ export default function HomePage() {
                 href={`/vault/${article.slug}`}
                 className="group relative block overflow-hidden border border-border transition-colors duration-300 hover:border-white/10"
               >
-                <div className="aspect-[16/10] w-full overflow-hidden">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <div
-                    className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="absolute inset-0"
                     style={{ background: article.heroGradient }}
+                  />
+                  <Image
+                    src={article.heroImage}
+                    alt={article.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

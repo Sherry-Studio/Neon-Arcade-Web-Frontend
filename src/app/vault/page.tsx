@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { articles } from "@/lib/articles";
 
@@ -16,10 +17,20 @@ export default function VaultPage() {
     <div className="bg-surface">
       {/* ── Hero Article ── */}
       <section className="relative h-[70vh] min-h-[520px] overflow-hidden">
-        {/* Gradient background */}
+        {/* Gradient background (fallback) */}
         <div
           className="absolute inset-0"
           style={{ background: heroArticle.heroGradient }}
+        />
+
+        {/* Photo */}
+        <Image
+          src={heroArticle.heroImage}
+          alt={heroArticle.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
 
         {/* Dark overlay from bottom */}
@@ -85,6 +96,13 @@ export default function VaultPage() {
                 className="aspect-[21/9] w-full"
                 style={{ background: featured.heroGradient }}
               />
+              <Image
+                src={featured.heroImage}
+                alt={featured.title}
+                fill
+                sizes="100vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-8 lg:p-12">
                 <span className="mb-3 inline-block text-[10px] font-medium tracking-[0.25em] text-accent-blue">
@@ -113,6 +131,13 @@ export default function VaultPage() {
                 <div
                   className="aspect-[4/3] w-full"
                   style={{ background: article.heroGradient }}
+                />
+                <Image
+                  src={article.heroImage}
+                  alt={article.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">

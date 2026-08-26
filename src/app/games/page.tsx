@@ -15,14 +15,14 @@ const categories = [
 ] as const;
 
 const allGames = [
-  { title: "Cyber Runner", genre: "Action", tagline: "Dash through neon-lit cityscapes", category: "Action" },
-  { title: "Neon Drift", genre: "Racing", tagline: "Master the art of drifting", category: "Racing" },
-  { title: "Pixel Blaster", genre: "Action", tagline: "Retro-inspired shoot-em-up", category: "Action" },
-  { title: "Grid Wars", genre: "Puzzle", tagline: "Strategic grid-based combat", category: "Puzzle" },
-  { title: "Shadow Protocol", genre: "Action", tagline: "Stealth missions in the dark", category: "Action" },
-  { title: "Quantum Break", genre: "Puzzle", tagline: "Bend time, solve the impossible", category: "Puzzle" },
-  { title: "Velocity X", genre: "Racing", tagline: "Pure speed, zero limits", category: "Racing" },
-  { title: "Neural Link", genre: "Strategy", tagline: "Connect minds, conquer worlds", category: "Sports" },
+  { title: "Cyber Runner", genre: "Action", tagline: "Dash through neon-lit cityscapes", category: "Action", image: "/images/cyber-runner.jpg" },
+  { title: "Neon Drift", genre: "Racing", tagline: "Master the art of drifting", category: "Racing", image: "/images/neon-drift.jpg" },
+  { title: "Pixel Blaster", genre: "Action", tagline: "Retro-inspired shoot-em-up", category: "Action", image: "/images/pixel-blaster.jpg" },
+  { title: "Grid Wars", genre: "Puzzle", tagline: "Strategic grid-based combat", category: "Puzzle", image: "/images/grid-wars.jpg" },
+  { title: "Shadow Protocol", genre: "Action", tagline: "Stealth missions in the dark", category: "Action", image: "/images/shadow-protocol.jpg" },
+  { title: "Quantum Break", genre: "Puzzle", tagline: "Bend time, solve the impossible", category: "Puzzle", image: "/images/quantum-break.jpg" },
+  { title: "Velocity X", genre: "Racing", tagline: "Pure speed, zero limits", category: "Racing", image: "/images/velocity-x.jpg" },
+  { title: "Neural Link", genre: "Strategy", tagline: "Connect minds, conquer worlds", category: "Sports", image: "/images/neural-link.jpg" },
 ];
 
 export default function GamesPage() {
@@ -90,6 +90,7 @@ export default function GamesPage() {
                     title={game.title}
                     genre={game.genre}
                     tagline={game.tagline}
+                    imageUrl={game.image}
                     index={i}
                   />
                 </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { articles, getArticleBySlug } from "@/lib/articles";
@@ -48,6 +49,14 @@ export default async function ArticlePage({ params }: PageProps) {
         <div
           className="absolute inset-0"
           style={{ background: article.heroGradient }}
+        />
+        <Image
+          src={article.heroImage}
+          alt={article.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent" />
 
@@ -139,6 +148,13 @@ export default async function ArticlePage({ params }: PageProps) {
                 <div
                   className="aspect-[3/2] w-full"
                   style={{ background: other.heroGradient }}
+                />
+                <Image
+                  src={other.heroImage}
+                  alt={other.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6">

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface GameShowcaseProps {
   title: string;
   genre: string;
@@ -19,6 +21,7 @@ export default function GameShowcase({
   title,
   genre,
   tagline,
+  imageUrl,
   index = 0,
 }: GameShowcaseProps) {
   const gradient = gradients[index % gradients.length];
@@ -27,12 +30,22 @@ export default function GameShowcase({
     <div className="group relative w-full overflow-hidden cursor-pointer">
       {/* Image area */}
       <div className="relative aspect-[16/9] overflow-hidden">
-        <div
-          className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-          style={{ background: gradient }}
-        />
+        {/* Gradient fallback (shows if the photo is missing) */}
+        <div className="absolute inset-0" style={{ background: gradient }} />
+
+        {/* Photo */}
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          />
+        )}
+
         {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
 
         {/* Content overlay */}
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
