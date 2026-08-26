@@ -21,7 +21,7 @@ const activity = [
 ];
 
 export default function ProfilePage() {
-  const { data: session, status, update } = useSession();
+  const { status, update } = useSession();
   const router = useRouter();
 
   const [username, setUsername] = useState("");
