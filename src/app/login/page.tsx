@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Button from "@/components/ui/Button";
+import { AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,98 +40,98 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden px-6 py-16">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(50% 40% at 50% 28%, rgba(37,99,235,0.10), transparent 70%)",
+        }}
+      />
+
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        className="relative z-10 w-full max-w-md"
       >
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-          className="mb-12"
-        >
-          <h1 className="font-[family-name:var(--font-heading)] text-3xl font-bold tracking-tight text-white mb-2">
+        <div className="mb-10">
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-text-muted">
+            NeonArcade
+          </span>
+          <h1 className="mt-3 font-[family-name:var(--font-heading)] text-4xl font-bold tracking-tight text-white md:text-5xl">
             SIGN IN
           </h1>
-          <p className="text-text-secondary text-base">Welcome back.</p>
-        </motion.div>
+          <p className="mt-3 text-sm text-text-secondary">
+            Welcome back. Pick up where you left off.
+          </p>
+        </div>
 
-        {/* Error */}
         {error && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-red-500 text-sm mb-6"
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 flex items-center gap-2 border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm text-red-400"
           >
+            <AlertCircle size={16} className="shrink-0" />
             {error}
-          </motion.p>
+          </motion.div>
         )}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
+            transition={{ delay: 0.1 }}
           >
+            <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted">
+              Username
+            </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full bg-transparent border-b border-border py-4 text-lg text-white placeholder-text-muted focus:border-white focus:outline-none transition-colors duration-300"
-              placeholder="Username"
+              className="w-full border border-border bg-surface-elevated px-4 py-3.5 text-white placeholder-text-muted transition-colors duration-200 focus:border-white/60 focus:outline-none"
+              placeholder="Enter your username"
             />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
+            transition={{ delay: 0.18 }}
           >
+            <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-transparent border-b border-border py-4 text-lg text-white placeholder-text-muted focus:border-white focus:outline-none transition-colors duration-300"
-              placeholder="Password"
+              className="w-full border border-border bg-surface-elevated px-4 py-3.5 text-white placeholder-text-muted transition-colors duration-200 focus:border-white/60 focus:outline-none"
+              placeholder="Enter your password"
             />
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
+          <motion.button
+            type="submit"
+            disabled={loading}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
+            transition={{ delay: 0.26 }}
+            className="w-full bg-white py-4 text-sm font-medium uppercase tracking-[0.2em] text-black transition-colors duration-200 hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Button
-              type="submit"
-              variant="solid"
-              size="lg"
-              disabled={loading}
-              className="w-full mt-8"
-            >
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
-          </motion.div>
+            {loading ? "Signing in…" : "Sign In"}
+          </motion.button>
         </form>
 
-        {/* Footer */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-          className="text-text-secondary text-sm mt-8"
-        >
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-white hover:text-text-secondary transition-colors">
-            Sign up
+        <p className="mt-8 text-sm text-text-secondary">
+          New to NeonArcade?{" "}
+          <Link href="/signup" className="text-white underline-offset-4 hover:underline">
+            Create an account
           </Link>
-        </motion.p>
+        </p>
       </motion.div>
     </div>
   );

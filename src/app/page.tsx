@@ -1,353 +1,273 @@
-"use client";
-
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ChevronDown, ArrowRight } from "lucide-react";
-import PageTransition from "@/components/PageTransition";
-import Heading from "@/components/ui/Heading";
-import Button from "@/components/ui/Button";
 import MagneticButton from "@/components/ui/MagneticButton";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import HorizontalScroll from "@/components/ui/HorizontalScroll";
 import LiveCounter from "@/components/ui/LiveCounter";
+import Timeline from "@/components/Timeline";
+import { articles } from "@/lib/articles";
 
-/* ─── Animation variants ─── */
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.18, delayChildren: 0.3 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] } },
-};
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 1.2 } },
-};
-
-/* ─── Data ─── */
 const discoverGames = [
-  { title: "Cyber Runner", genre: "ACTION", gradient: "linear-gradient(160deg, #0f172a 0%, #1e1b4b 50%, #0c0a1a 100%)" },
-  { title: "Neon Drift", genre: "RACING", gradient: "linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0a0a1a 100%)" },
-  { title: "Pixel Blaster", genre: "ACTION", gradient: "linear-gradient(160deg, #0f1f0f 0%, #1a2e1a 50%, #0a0f0a 100%)" },
-  { title: "Grid Wars", genre: "PUZZLE", gradient: "linear-gradient(160deg, #1f1a0a 0%, #2e1f0f 50%, #0f0a05 100%)" },
-  { title: "Shadow Protocol", genre: "STRATEGY", gradient: "linear-gradient(160deg, #1a0a1a 0%, #2e1a2e 50%, #0a050a 100%)" },
-  { title: "Quantum Break", genre: "ACTION", gradient: "linear-gradient(160deg, #0a1a2e 0%, #1a2e3e 50%, #050a0f 100%)" },
+  { n: "01", cat: "ACTION", title: "Cyber Runner", tagline: "Dash through neon-lit skylines.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%)" },
+  { n: "02", cat: "RACING", title: "Neon Drift", tagline: "Own every corner.", gradient: "linear-gradient(135deg, #2d1b2e 0%, #1a0a2e 55%, #16213e 100%)" },
+  { n: "03", cat: "PUZZLE", title: "Grid Wars", tagline: "Outthink the grid.", gradient: "linear-gradient(135deg, #0f1f0f 0%, #1a2e1a 55%, #0a1a0a 100%)" },
+  { n: "04", cat: "STEALTH", title: "Shadow Protocol", tagline: "Move unseen.", gradient: "linear-gradient(135deg, #14213d 0%, #1a1a2e 55%, #0a0a14 100%)" },
+  { n: "05", cat: "ARCADE", title: "Pixel Blaster", tagline: "Retro firepower, modern edge.", gradient: "linear-gradient(135deg, #1f1a0a 0%, #2e1f0f 55%, #1a0f0a 100%)" },
 ];
 
-const categories = ["01 / ACTION", "02 / RACING", "03 / PUZZLE", "04 / STRATEGY"];
-
-const vaultArticles = [
-  {
-    category: "GAME HISTORY",
-    title: "The Rise of Browser Gaming",
-    excerpt: "How web technologies evolved from simple Flash games to powering console-quality experiences that rival native applications.",
-  },
-  {
-    category: "CULTURE",
-    title: "Designing for the Infinite Canvas",
-    excerpt: "Inside the studios pushing boundaries with generative art, procedural worlds, and the philosophy of emergent game design.",
-  },
-];
-
-/* ─── Component ─── */
 export default function HomePage() {
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.96]);
+  const vaultPreview = articles.slice(0, 2);
 
   return (
-    <PageTransition>
-      {/* ═══════════ SECTION 1 — Cinematic Hero ═══════════ */}
-      <motion.section
-        ref={heroRef}
-        style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-6 overflow-hidden"
-      >
-        {/* Subtle radial glow */}
+    <>
+      {/* ─────────────────────────── SECTION 1 · HERO ─────────────────────────── */}
+      <section className="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center overflow-hidden px-6 text-center">
+        {/* Atmospheric background */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 50% 45%, rgba(37,99,235,0.04) 0%, rgba(124,58,237,0.03) 40%, transparent 70%)",
+              "radial-gradient(60% 55% at 50% 38%, rgba(37,99,235,0.16), transparent 70%)",
           }}
         />
+        <div className="pointer-events-none absolute left-[10%] top-[20%] h-72 w-72 rounded-full bg-accent-violet/20 blur-[120px]" />
+        <div className="pointer-events-none absolute bottom-[12%] right-[12%] h-80 w-80 rounded-full bg-accent-green/10 blur-[130px]" />
 
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate="visible"
-          className="relative z-10"
-        >
-          <motion.h1
-            variants={fadeUp}
-            className="font-[family-name:var(--font-heading)] font-bold tracking-tighter leading-none text-text-primary"
-            style={{ fontSize: "clamp(4rem, 12vw, 12rem)" }}
+        <div className="relative z-10 flex flex-col items-center">
+          <span className="mb-8 inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.3em] text-text-secondary animate-fade-up">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent-green" />
+            Now Live
+          </span>
+
+          <h1 className="font-[family-name:var(--font-heading)] font-bold leading-[0.82] tracking-tight text-white">
+            <span className="block overflow-hidden">
+              <span
+                className="text-gradient block animate-fade-up text-[clamp(3.75rem,17vw,14rem)]"
+                style={{ animationDelay: "0.05s" }}
+              >
+                PLAY
+              </span>
+            </span>
+            <span className="block overflow-hidden">
+              <span
+                className="text-gradient block animate-fade-up text-[clamp(3.75rem,17vw,14rem)]"
+                style={{ animationDelay: "0.16s" }}
+              >
+                BEYOND.
+              </span>
+            </span>
+          </h1>
+
+          <p
+            className="mt-8 max-w-md animate-fade-up text-base text-text-secondary sm:text-lg"
+            style={{ animationDelay: "0.32s" }}
           >
-            PLAY
-            <br />
-            BEYOND.
-          </motion.h1>
+            The web is your arcade. No downloads, no limits — just play.
+          </p>
 
-          <motion.p
-            variants={fadeUp}
-            className="mt-8 text-lg tracking-wide text-text-secondary font-light"
-          >
-            The web is your arcade.
-          </motion.p>
-
-          <motion.div variants={fadeUp} className="mt-12 flex justify-center">
-            <Link href="/games">
-              <MagneticButton>
-                <Button variant="solid" size="lg" className="gap-3">
-                  ENTER <ArrowRight size={16} />
-                </Button>
-              </MagneticButton>
-            </Link>
-          </motion.div>
-        </motion.div>
+          <div className="mt-12 animate-fade-up" style={{ animationDelay: "0.44s" }}>
+            <MagneticButton>
+              <Link
+                href="/games"
+                className="group inline-flex items-center gap-3 bg-white px-10 py-4 text-sm font-medium uppercase tracking-[0.2em] text-black transition-colors duration-200 hover:bg-white/90"
+              >
+                Enter
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </MagneticButton>
+          </div>
+        </div>
 
         {/* Scroll indicator */}
-        <motion.div
-          variants={fadeIn}
-          initial="hidden"
-          animate="visible"
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-text-muted">Scroll</span>
+          <span className="relative block h-12 w-px overflow-hidden bg-border">
+            <span className="absolute left-0 top-0 h-4 w-px animate-[slide-in_1.6s_ease-in-out_infinite] bg-white" />
+          </span>
+        </div>
+      </section>
+
+      {/* ─────────────────────────── SECTION 2 · FEATURED ─────────────────────────── */}
+      <section className="px-6 py-24 sm:px-10 md:py-32 lg:px-20">
+        <ScrollReveal className="mb-10 flex items-end justify-between">
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-text-muted">
+            Featured
+          </span>
+          <span className="text-xs uppercase tracking-[0.2em] text-text-muted">01 / 05</span>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.1}>
+          <Link
+            href="/games"
+            className="group relative block aspect-[16/10] w-full overflow-hidden md:aspect-[21/9]"
           >
-            <ChevronDown size={18} className="text-text-muted" strokeWidth={1.5} />
-          </motion.div>
-        </motion.div>
-      </motion.section>
+            <div
+              className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #0f0c29 0%, #16213e 45%, #0f3460 100%)" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
 
-      {/* ═══════════ SECTION 2 — Featured Game ═══════════ */}
-      <section className="relative py-32 md:py-40 px-6">
-        <ScrollReveal>
-          {/* Label */}
-          <div className="max-w-7xl mx-auto mb-8">
-            <span className="text-[11px] font-medium uppercase tracking-[0.25em] text-text-muted flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-blue" />
-              Featured
-            </span>
-          </div>
-
-          {/* Showcase */}
-          <div className="max-w-7xl mx-auto">
-            <div className="group relative overflow-hidden cursor-pointer aspect-video lg:aspect-[21/9] transition-all duration-700 ease-out">
-              {/* Placeholder gradient image */}
-              <div
-                className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.015]"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #0a0f1e 0%, #111827 25%, #1e1b4b 55%, #0f172a 80%, #030712 100%)",
-                }}
-              />
-              {/* Atmosphere overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
-
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 lg:p-16">
-                <motion.span
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                  className="text-[10px] font-medium uppercase tracking-[0.25em] text-text-secondary mb-3"
-                >
-                  Racing · Multiplayer
-                </motion.span>
-                <motion.h3
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3, duration: 0.7 }}
-                  className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white"
-                >
-                  NEON RUSH
-                </motion.h3>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                  className="text-text-secondary mt-2 text-base md:text-lg max-w-md"
-                >
-                  Drive without limits.
-                </motion.p>
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 }}
-                  className="mt-6"
-                >
-                  <Button variant="outline" size="md" className="gap-2">
-                    PLAY <ArrowRight size={14} />
-                  </Button>
-                </motion.div>
-              </div>
+            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16">
+              <span className="mb-3 text-[10px] font-medium uppercase tracking-[0.3em] text-accent-blue">
+                Action · Trending
+              </span>
+              <h2 className="font-[family-name:var(--font-heading)] text-4xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl">
+                CYBER RUNNER
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary md:text-base">
+                Dash through neon-lit cityscapes in the endless runner that defined a generation of browser play.
+              </p>
+              <span className="mt-8 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-white">
+                Play now
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
             </div>
-          </div>
+          </Link>
         </ScrollReveal>
       </section>
 
-      {/* ═══════════ SECTION 3 — Discover ═══════════ */}
-      <section className="py-32 md:py-40">
-        <ScrollReveal className="px-6 max-w-7xl mx-auto mb-12">
-          <Heading level={2} className="tracking-tighter">
+      {/* ─────────────────────────── SECTION 3 · DISCOVER ─────────────────────────── */}
+      <section className="py-24 md:py-32">
+        <ScrollReveal className="mb-12 px-6 sm:px-10 lg:px-20">
+          <h2 className="font-[family-name:var(--font-heading)] text-4xl font-bold tracking-tight text-white md:text-6xl">
             DISCOVER
-          </Heading>
-          <p className="mt-4 text-text-muted text-sm max-w-md">
-            Browse our curated collection of browser-based games.
+          </h2>
+          <p className="mt-3 text-sm text-text-secondary">
+            Five worlds. One tab. Pick your grid.
           </p>
         </ScrollReveal>
 
-        {/* Category labels */}
-        <ScrollReveal className="px-6 max-w-7xl mx-auto mb-8" delay={0.1}>
-          <div className="flex flex-wrap gap-x-8 gap-y-2">
-            {categories.map((cat) => (
-              <span
-                key={cat}
-                className="text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted"
-              >
-                {cat}
-              </span>
-            ))}
-          </div>
-        </ScrollReveal>
-
-        {/* Horizontal game cards */}
-        <div className="pl-6 md:pl-[calc((100vw-80rem)/2+1.5rem)]">
+        <div className="px-6 sm:px-10 lg:px-20">
           <HorizontalScroll>
             {discoverGames.map((game) => (
-              <div
+              <Link
                 key={game.title}
-                className="group relative min-w-[280px] md:min-w-[320px] aspect-[3/4] snap-start overflow-hidden cursor-pointer flex-shrink-0"
+                href="/games"
+                className="group relative aspect-[3/4] w-[78vw] shrink-0 snap-start overflow-hidden sm:w-[360px]"
               >
-                {/* Gradient bg */}
                 <div
-                  className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
                   style={{ background: game.gradient }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <span className="text-[9px] font-medium uppercase tracking-[0.3em] text-text-muted mb-2">
-                    {game.genre}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                <div className="absolute inset-0 flex flex-col justify-between p-6">
+                  <span className="text-xs font-medium uppercase tracking-[0.25em] text-white/70">
+                    {game.n} / {game.cat}
                   </span>
-                  <h4 className="font-[family-name:var(--font-heading)] text-xl font-bold tracking-tight text-white">
-                    {game.title}
-                  </h4>
+                  <div>
+                    <h3 className="font-[family-name:var(--font-heading)] text-2xl font-bold tracking-tight text-white">
+                      {game.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-text-secondary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      {game.tagline}
+                    </p>
+                  </div>
                 </div>
-
-                {/* Hover border */}
-                <div className="absolute inset-0 border border-white/0 transition-colors duration-300 group-hover:border-white/[0.06]" />
-              </div>
+              </Link>
             ))}
           </HorizontalScroll>
         </div>
       </section>
 
-      {/* ═══════════ SECTION 4 — Playing Now ═══════════ */}
-      <section className="py-32 md:py-40 bg-surface-elevated">
-        <ScrollReveal className="px-6 max-w-4xl mx-auto text-center">
-          <LiveCounter value={12842} label="Players Online" />
-
-          <div className="mt-16">
-            <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted">
-              Most Played Right Now
-            </span>
-            <p className="mt-3 font-[family-name:var(--font-heading)] text-3xl md:text-4xl font-bold tracking-tight text-white">
-              CYBER RUNNER
-            </p>
-          </div>
-
-          {/* Accent line */}
-          <div className="flex justify-center mt-12">
-            <div className="w-8 h-px bg-accent-violet" />
-          </div>
+      {/* ─────────────────────────── SECTION 4 · PLAYING NOW ─────────────────────────── */}
+      <section className="border-y border-border px-6 py-24 sm:px-10 md:py-32 lg:px-20">
+        <ScrollReveal className="mb-16 text-center">
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-text-muted">
+            Playing Now
+          </span>
         </ScrollReveal>
+
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
+          <LiveCounter value={12842} label="Players Online" />
+          <LiveCounter value={48920} label="Games Today" />
+          <LiveCounter value={312} label="Live Matches" />
+        </div>
       </section>
 
-      {/* ═══════════ SECTION 5 — The Vault ═══════════ */}
-      <section className="py-32 md:py-40 px-6">
-        <ScrollReveal className="max-w-7xl mx-auto">
-          <Heading level={2} className="tracking-tighter">
-            THE VAULT
-          </Heading>
-          <p className="mt-4 text-text-muted text-sm max-w-md">
-            Gaming culture, history, and stories.
+      {/* ─────────────────────────── SECTION 5 · EVOLUTION / TIMELINE ─────────────────────────── */}
+      <section className="px-6 py-24 sm:px-10 md:py-32 lg:px-20">
+        <ScrollReveal className="mb-16 text-center">
+          <h2 className="font-[family-name:var(--font-heading)] text-4xl font-bold tracking-tight text-white md:text-6xl">
+            THE EVOLUTION OF PLAY
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-sm text-text-secondary">
+            Half a century of games, distilled into seven moments.
           </p>
         </ScrollReveal>
 
-        <div className="max-w-7xl mx-auto mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {vaultArticles.map((article, i) => (
-            <ScrollReveal key={article.title} delay={i * 0.12}>
-              <article className="group relative border border-border hover:border-white/10 transition-colors duration-500 p-8 md:p-10 cursor-pointer bg-surface-card">
-                <span className="text-[9px] font-medium uppercase tracking-[0.3em] text-text-muted">
-                  {article.category}
-                </span>
-                <h3 className="mt-4 font-[family-name:var(--font-heading)] text-2xl md:text-3xl font-bold tracking-tight text-white">
-                  {article.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-text-secondary max-w-lg">
-                  {article.excerpt}
-                </p>
-                <span className="inline-flex items-center gap-2 mt-6 text-xs font-medium uppercase tracking-[0.2em] text-text-muted transition-colors duration-300 group-hover:text-white">
-                  READ STORY <ArrowRight size={12} />
-                </span>
-              </article>
+        <Timeline />
+      </section>
+
+      {/* ─────────────────────────── SECTION 6 · THE VAULT ─────────────────────────── */}
+      <section className="border-t border-border px-6 py-24 sm:px-10 md:py-32 lg:px-20">
+        <ScrollReveal className="mb-12 flex items-end justify-between">
+          <h2 className="font-[family-name:var(--font-heading)] text-4xl font-bold tracking-tight text-white md:text-6xl">
+            THE VAULT
+          </h2>
+          <Link
+            href="/vault"
+            className="group hidden items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-secondary transition-colors hover:text-white sm:inline-flex"
+          >
+            Explore
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </Link>
+        </ScrollReveal>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {vaultPreview.map((article, i) => (
+            <ScrollReveal key={article.slug} delay={0.1 + i * 0.1}>
+              <Link
+                href={`/vault/${article.slug}`}
+                className="group relative block overflow-hidden border border-border transition-colors duration-300 hover:border-white/10"
+              >
+                <div className="aspect-[16/10] w-full overflow-hidden">
+                  <div
+                    className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-105"
+                    style={{ background: article.heroGradient }}
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-8">
+                  <span className="mb-2 inline-block text-[10px] font-medium tracking-[0.25em] text-accent-blue">
+                    {article.category}
+                  </span>
+                  <h3 className="font-[family-name:var(--font-heading)] text-xl font-bold tracking-tight text-white md:text-2xl">
+                    {article.title}
+                  </h3>
+                  <span className="mt-3 inline-block text-xs tracking-widest text-text-muted">
+                    {article.readTime}
+                  </span>
+                </div>
+              </Link>
             </ScrollReveal>
           ))}
         </div>
 
-        <ScrollReveal className="max-w-7xl mx-auto mt-12 text-center" delay={0.2}>
-          <Link
-            href="/vault"
-            className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-muted hover:text-white transition-colors duration-300"
-          >
-            Explore the Vault <ArrowRight size={12} />
-          </Link>
-        </ScrollReveal>
+        <Link
+          href="/vault"
+          className="group mt-10 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-secondary transition-colors hover:text-white sm:hidden"
+        >
+          Explore the vault
+          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </Link>
       </section>
 
-      {/* ═══════════ SECTION 6 — Footer ═══════════ */}
-      <footer className="border-t border-border py-16 md:py-20 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Logo */}
-          <span className="font-[family-name:var(--font-heading)] text-sm font-bold tracking-widest text-text-muted">
+      {/* ─────────────────────────── SECTION 7 · FOOTER ─────────────────────────── */}
+      <footer className="relative border-t border-border">
+        <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent" />
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-12 sm:flex-row sm:px-10 lg:px-20">
+          <span className="font-[family-name:var(--font-heading)] text-lg font-bold uppercase tracking-[0.15em] text-white">
             NEONARCADE
           </span>
-
-          {/* Nav */}
-          <nav className="flex items-center gap-8">
-            {["Play", "Discover", "The Vault"].map((item) => (
-              <Link
-                key={item}
-                href={item === "Play" ? "/games" : item === "The Vault" ? "/vault" : "/games"}
-                className="text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted hover:text-white transition-colors duration-300"
-              >
-                {item}
-              </Link>
-            ))}
+          <nav className="flex items-center gap-8 text-xs font-medium uppercase tracking-[0.2em] text-text-secondary">
+            <Link href="/games" className="transition-colors hover:text-white">Play</Link>
+            <Link href="/vault" className="transition-colors hover:text-white">The Vault</Link>
+            <Link href="/login" className="transition-colors hover:text-white">Sign In</Link>
           </nav>
-
-          {/* Copyright */}
-          <span className="text-[11px] text-text-muted tracking-wide">
-            &copy; 2026 NeonArcade
-          </span>
+          <p className="text-xs text-text-muted">&copy; 2026 NeonArcade</p>
         </div>
       </footer>
-    </PageTransition>
+    </>
   );
 }
