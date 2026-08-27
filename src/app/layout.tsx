@@ -34,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9814325246389127"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
         <AuthProvider>
           <div className="noise-overlay" />
