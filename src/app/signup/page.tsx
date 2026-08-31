@@ -20,6 +20,7 @@ export default function SignupPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    console.log("Submitting signup form with:", { username, password, confirmPassword, avatar });
     setError("");
     setSuccess("");
 
