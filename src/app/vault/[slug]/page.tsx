@@ -30,9 +30,9 @@ export default async function ArticlePage({ params }: PageProps) {
   const otherArticles = articles.filter((a) => a.slug !== slug).slice(0, 3);
 
   return (
-    <div className="bg-surface">
+    <div className="relative z-10 bg-surface/[0.97]">
       {/* ── Back link ── */}
-      <div className="px-12 pt-8 lg:px-20">
+      <div className="px-12 pt-28 lg:px-20">
         <Link
           href="/vault"
           className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-muted transition-colors duration-300 hover:text-white"

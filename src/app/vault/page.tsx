@@ -14,9 +14,9 @@ export default function VaultPage() {
   const [featured, ...sideArticles] = moreArticles;
 
   return (
-    <div className="bg-surface">
+    <div className="relative z-10 bg-surface/[0.95]">
       {/* ── Hero Article ── */}
-      <section className="relative h-[70vh] min-h-[520px] overflow-hidden">
+      <section className="relative h-[82vh] min-h-[560px] overflow-hidden">
         {/* Gradient background (fallback) */}
         <div
           className="absolute inset-0"

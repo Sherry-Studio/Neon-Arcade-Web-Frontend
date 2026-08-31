@@ -134,7 +134,7 @@ export default function ProfilePage() {
   if (status !== "authenticated") return null;
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16 sm:px-10">
+    <div className="relative z-10 mx-auto max-w-4xl px-6 pb-20 pt-28 sm:px-10">
       {/* Toast */}
       <AnimatePresence>
         {toast && (

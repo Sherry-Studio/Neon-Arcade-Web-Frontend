@@ -1,47 +1,58 @@
 "use client";
 
-import { useRef, useState, ReactNode, MouseEvent } from "react";
+import { useRef, ReactNode, MouseEvent } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface MagneticButtonProps {
   children: ReactNode;
   className?: string;
+  /** pull strength, 0..1 */
+  strength?: number;
 }
 
-export default function MagneticButton({ children, className = "" }: MagneticButtonProps) {
+/**
+ * Wraps content in a magnetic hover field. Content drifts toward the cursor
+ * with a spring, snapping back on leave. No-ops under reduced motion.
+ */
+export default function MagneticButton({
+  children,
+  className = "",
+  strength = 0.35,
+}: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const reduced = useReducedMotion();
 
-  function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
+
+  function onMove(e: MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
     const el = ref.current;
     if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const dx = (e.clientX - centerX) * 0.15;
-    const dy = (e.clientY - centerY) * 0.15;
-    // Clamp to max 4px
-    setOffset({
-      x: Math.max(-4, Math.min(4, dx)),
-      y: Math.max(-4, Math.min(4, dy)),
-    });
+    const r = el.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top + r.height / 2);
+    x.set(dx * strength);
+    y.set(dy * strength);
   }
 
-  function handleMouseLeave() {
-    setOffset({ x: 0, y: 0 });
+  function onLeave() {
+    x.set(0);
+    y.set(0);
   }
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{ x: sx, y: sy }}
       className={`inline-block ${className}`}
-      style={{
-        transform: `translate(${offset.x}px, ${offset.y}px)`,
-        transition: offset.x === 0 && offset.y === 0 ? "transform 0.4s ease-out" : "none",
-      }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

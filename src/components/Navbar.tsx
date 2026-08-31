@@ -9,9 +9,9 @@ import { useSession, signOut } from "next-auth/react";
 import Avatar from "@/components/ui/Avatar";
 
 const navLinks = [
-  { href: "/games", label: "PLAY" },
-  { href: "/games#discover", label: "DISCOVER" },
+  { href: "/games", label: "GAMES" },
   { href: "/vault", label: "THE VAULT" },
+  { href: "/#studio", label: "STUDIO" },
 ];
 
 export default function Navbar() {
@@ -21,56 +21,56 @@ export default function Navbar() {
   const { data: session } = useSession();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const isActive = (href: string) => {
-    if (href.includes("#")) return pathname === href.split("#")[0];
-    return pathname === href;
+    const base = href.split("#")[0];
+    if (base === "/") return pathname === "/";
+    return pathname === base || pathname.startsWith(base + "/");
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-surface/90 backdrop-blur-xl border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+    <>
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-[var(--gutter)]">
+        <nav
+          className={`pointer-events-auto mt-4 flex w-full max-w-6xl items-center justify-between rounded-full px-5 py-2.5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6 ${
+            scrolled
+              ? "glass-strong shadow-[0_20px_60px_-30px_rgba(0,0,0,0.9)]"
+              : "border border-transparent bg-transparent"
+          }`}
+        >
           <Link
             href="/"
-            className="text-lg font-bold text-white uppercase tracking-[0.15em] font-[family-name:var(--font-heading)]"
+            className="font-[family-name:var(--font-heading)] text-sm font-bold uppercase tracking-[0.24em] text-white"
           >
-            NEONARCADE
+            NEON<span className="text-accent-cyan">ARCADE</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-12">
+          <div className="hidden items-center gap-9 md:flex">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative group flex flex-col items-center"
+                  className="group relative text-[11px] font-medium uppercase tracking-[0.22em]"
                 >
                   <span
-                    className={`text-xs font-medium uppercase tracking-[0.2em] transition-colors duration-300 ${
-                      active ? "text-white" : "text-text-secondary hover:text-white"
+                    className={`transition-colors duration-300 ${
+                      active ? "text-white" : "text-text-secondary group-hover:text-white"
                     }`}
                   >
                     {link.label}
                   </span>
-                  {active && (
-                    <span className="absolute -bottom-1.5 w-1 h-1 rounded-full bg-white" />
-                  )}
+                  <span
+                    className={`absolute -bottom-1.5 left-1/2 h-px -translate-x-1/2 bg-accent-cyan transition-all duration-300 ${
+                      active ? "w-4" : "w-0 group-hover:w-4"
+                    }`}
+                  />
                 </Link>
               );
             })}
@@ -79,14 +79,14 @@ export default function Navbar() {
               <div className="flex items-center gap-4">
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2.5 text-xs font-medium uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-colors duration-300"
+                  className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-text-secondary transition-colors hover:text-white"
                 >
-                  <Avatar avatarId={session.user?.avatar} size={26} />
+                  <Avatar avatarId={session.user?.avatar} size={24} />
                   {session.user?.name}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted hover:text-white transition-colors duration-300"
+                  className="text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted transition-colors hover:text-white"
                 >
                   Logout
                 </button>
@@ -94,71 +94,64 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-colors duration-300"
+                className="flex items-center gap-2 rounded-full border border-white/12 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors hover:border-accent-cyan/60 hover:bg-accent-cyan/[0.06]"
               >
-                <LogIn size={14} />
+                <LogIn size={13} />
                 Login
               </Link>
             )}
           </div>
 
-          {/* Mobile menu button */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-text-secondary hover:text-white transition-colors"
+            onClick={() => setMobileOpen((v) => !v)}
+            className="text-text-secondary transition-colors hover:text-white md:hidden"
+            aria-label="Menu"
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
-        </div>
-      </div>
+        </nav>
+      </header>
 
-      {/* Mobile menu - full screen overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed inset-0 top-0 bg-surface/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center"
+            transition={{ duration: 0.3 }}
+            className="glass-strong fixed inset-0 z-40 flex flex-col items-center justify-center md:hidden"
           >
-            <div className="flex flex-col items-center gap-10">
-              {navLinks.map((link, i) => {
-                const active = isActive(link.href);
-                return (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
+            <div className="flex flex-col items-center gap-9">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + i * 0.07 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="font-[family-name:var(--font-heading)] text-3xl font-bold uppercase tracking-[0.12em] text-white"
                   >
-                    <Link
-                      href={link.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={`text-2xl font-bold uppercase tracking-[0.2em] font-[family-name:var(--font-heading)] transition-colors duration-300 ${
-                        active ? "text-white" : "text-text-secondary hover:text-white"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                );
-              })}
-
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
-                className="mt-8"
+                transition={{ delay: 0.4 }}
+                className="mt-6"
               >
                 {session ? (
-                  <div className="flex flex-col items-center gap-6">
+                  <div className="flex flex-col items-center gap-5">
                     <Link
                       href="/profile"
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-colors"
+                      className="flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-text-secondary"
                     >
-                      <Avatar avatarId={session.user?.avatar} size={30} />
+                      <Avatar avatarId={session.user?.avatar} size={28} />
                       {session.user?.name}
                     </Link>
                     <button
@@ -166,7 +159,7 @@ export default function Navbar() {
                         setMobileOpen(false);
                         signOut({ callbackUrl: "/" });
                       }}
-                      className="text-sm font-medium uppercase tracking-[0.2em] text-text-muted hover:text-white transition-colors"
+                      className="text-sm uppercase tracking-[0.2em] text-text-muted"
                     >
                       Logout
                     </button>
@@ -175,7 +168,7 @@ export default function Navbar() {
                   <Link
                     href="/login"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white"
                   >
                     <LogIn size={16} />
                     Login
@@ -186,6 +179,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

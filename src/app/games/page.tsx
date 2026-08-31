@@ -2,130 +2,98 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Heading from "@/components/ui/Heading";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import GameShowcase from "@/components/ui/GameShowcase";
+import GameCoverCard from "@/components/site/GameCoverCard";
 
 const categories = [
   { label: "ALL", key: "All" },
-  { label: "01 / ACTION", key: "Action" },
-  { label: "02 / RACING", key: "Racing" },
-  { label: "03 / PUZZLE", key: "Puzzle" },
-  { label: "04 / SPORTS", key: "Sports" },
+  { label: "ACTION", key: "Action" },
+  { label: "RACING", key: "Racing" },
+  { label: "PUZZLE", key: "Puzzle" },
+  { label: "STRATEGY", key: "Strategy" },
 ] as const;
 
 const allGames = [
-  { title: "Cyber Runner", genre: "Action", tagline: "Dash through neon-lit cityscapes", category: "Action", image: "/images/cyber-runner.jpg" },
-  { title: "Neon Drift", genre: "Racing", tagline: "Master the art of drifting", category: "Racing", image: "/images/neon-drift.jpg" },
-  { title: "Pixel Blaster", genre: "Action", tagline: "Retro-inspired shoot-em-up", category: "Action", image: "/images/pixel-blaster.jpg" },
-  { title: "Grid Wars", genre: "Puzzle", tagline: "Strategic grid-based combat", category: "Puzzle", image: "/images/grid-wars.jpg" },
-  { title: "Shadow Protocol", genre: "Action", tagline: "Stealth missions in the dark", category: "Action", image: "/images/shadow-protocol.jpg" },
-  { title: "Quantum Break", genre: "Puzzle", tagline: "Bend time, solve the impossible", category: "Puzzle", image: "/images/quantum-break.jpg" },
-  { title: "Velocity X", genre: "Racing", tagline: "Pure speed, zero limits", category: "Racing", image: "/images/velocity-x.jpg" },
-  { title: "Neural Link", genre: "Strategy", tagline: "Connect minds, conquer worlds", category: "Sports", image: "/images/neural-link.jpg" },
+  { title: "Cyber Runner", genre: "Action", tagline: "Dash through neon-lit cityscapes.", category: "Action", platform: "Browser", image: "/images/cyber-runner.jpg", gradient: "linear-gradient(135deg,#0f1027,#16213e 55%,#0f3460)" },
+  { title: "Neon Drift", genre: "Racing", tagline: "Master the art of the drift.", category: "Racing", platform: "Browser", image: "/images/neon-drift.jpg", gradient: "linear-gradient(135deg,#241435,#1a0a2e 55%,#16213e)" },
+  { title: "Pixel Blaster", genre: "Action", tagline: "Retro-inspired shoot-'em-up.", category: "Action", platform: "Browser", image: "/images/pixel-blaster.jpg", gradient: "linear-gradient(135deg,#221a0f,#2a1c10 55%,#170f0a)" },
+  { title: "Grid Wars", genre: "Puzzle", tagline: "Strategic grid-based combat.", category: "Puzzle", platform: "Browser", image: "/images/grid-wars.jpg", gradient: "linear-gradient(135deg,#0b1b18,#10241f 55%,#0a1a16)" },
+  { title: "Shadow Protocol", genre: "Stealth", tagline: "Stealth missions in the dark.", category: "Action", platform: "Browser", image: "/images/shadow-protocol.jpg", gradient: "linear-gradient(135deg,#10182e,#141428 55%,#0a0a14)" },
+  { title: "Quantum Break", genre: "Puzzle", tagline: "Bend time, solve the impossible.", category: "Puzzle", platform: "Browser", image: "/images/quantum-break.jpg", gradient: "linear-gradient(135deg,#141a2e,#1a1030 55%,#0a0e1a)" },
+  { title: "Velocity X", genre: "Racing", tagline: "Pure speed, zero limits.", category: "Racing", platform: "Browser", image: "/images/velocity-x.jpg", gradient: "linear-gradient(135deg,#0a1628,#1a2332 55%,#0d1b2a)" },
+  { title: "Neural Link", genre: "Strategy", tagline: "Connect minds, conquer worlds.", category: "Strategy", platform: "Browser", image: "/images/neural-link.jpg", gradient: "linear-gradient(135deg,#0b1b18,#12241f 55%,#0a1a16)" },
 ];
 
 export default function GamesPage() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-
-  const filteredGames = activeCategory === "All"
-    ? allGames
-    : allGames.filter((g) => g.category === activeCategory);
+  const [active, setActive] = useState<string>("All");
+  const games = active === "All" ? allGames : allGames.filter((g) => g.category === active);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-      {/* Hero */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="mb-16 md:mb-24"
-      >
-        <Heading level={1} className="mb-4">ALL GAMES</Heading>
-        <p className="text-text-muted text-sm tracking-wide">
-          {filteredGames.length} GAME{filteredGames.length !== 1 ? "S" : ""}
-        </p>
-      </motion.div>
+    <div className="relative z-10 bg-surface/[0.94]">
+      <div className="mx-auto max-w-7xl px-[var(--gutter)] pb-28 pt-36 md:pt-44">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14"
+        >
+          <span className="eyebrow">The Showcase</span>
+          <h1 className="display mt-4 text-5xl text-white md:text-8xl">ALL GAMES</h1>
+          <p className="mt-4 text-sm tracking-wide text-text-muted">
+            {games.length} TITLE{games.length !== 1 ? "S" : ""} · BROWSER-NATIVE
+          </p>
+        </motion.div>
 
-      {/* Category Tabs */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-        className="flex gap-6 md:gap-8 mb-16 md:mb-20 overflow-x-auto pb-2 scrollbar-hide"
-      >
-        {categories.map((cat) => (
-          <button
-            key={cat.key}
-            onClick={() => setActiveCategory(cat.key)}
-            className={`relative text-xs uppercase tracking-[0.2em] whitespace-nowrap pb-2 transition-colors duration-300 ${
-              activeCategory === cat.key
-                ? "text-white"
-                : "text-text-muted hover:text-text-secondary"
-            }`}
-          >
-            {cat.label}
-            {activeCategory === cat.key && (
-              <motion.span
-                layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-px bg-white"
-                transition={{ duration: 0.3 }}
-              />
-            )}
-          </button>
-        ))}
-      </motion.div>
-
-      {/* Games List - Editorial Layout */}
-      <div className="space-y-16 md:space-y-24">
-        <AnimatePresence mode="popLayout">
-          {filteredGames.map((game, i) => (
-            <ScrollReveal key={game.title} delay={i * 0.08}>
-              <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center ${
-                i % 2 === 1 ? "md:direction-rtl" : ""
-              }`}>
-                {/* Image */}
-                <div className={i % 2 === 1 ? "md:order-2" : ""}>
-                  <GameShowcase
-                    title={game.title}
-                    genre={game.genre}
-                    tagline={game.tagline}
-                    imageUrl={game.image}
-                    index={i}
-                  />
-                </div>
-
-                {/* Text */}
-                <div className={`flex flex-col gap-4 ${i % 2 === 1 ? "md:order-1 md:text-right" : ""}`}>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-text-muted">
-                    {game.genre}
-                  </span>
-                  <h3 className="font-[family-name:var(--font-heading)] font-bold text-3xl md:text-4xl text-white tracking-tight">
-                    {game.title}
-                  </h3>
-                  <p className="text-text-secondary text-base leading-relaxed max-w-md">
-                    {game.tagline}
-                  </p>
-                  <a
-                    href="#"
-                    className="group/link inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-text-muted hover:text-white transition-colors duration-300 mt-2"
-                  >
-                    PLAY
-                    <span className="transition-transform duration-300 group-hover/link:translate-x-1">&rarr;</span>
-                  </a>
-                </div>
-              </div>
-            </ScrollReveal>
+        <div className="mb-16 flex gap-7 overflow-x-auto pb-2 scrollbar-hide md:gap-9">
+          {categories.map((cat) => (
+            <button
+              key={cat.key}
+              onClick={() => setActive(cat.key)}
+              className={`relative whitespace-nowrap pb-2 text-[11px] uppercase tracking-[0.24em] transition-colors duration-300 ${
+                active === cat.key ? "text-white" : "text-text-muted hover:text-text-secondary"
+              }`}
+            >
+              {cat.label}
+              {active === cat.key && (
+                <motion.span
+                  layoutId="activeGameTab"
+                  className="absolute inset-x-0 bottom-0 h-px bg-accent-cyan"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </button>
           ))}
-        </AnimatePresence>
-      </div>
-
-      {/* Empty state */}
-      {filteredGames.length === 0 && (
-        <div className="text-center py-24">
-          <p className="text-text-muted text-sm uppercase tracking-wide">No games in this category</p>
         </div>
-      )}
+
+        <motion.div layout className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {games.map((game, i) => (
+              <motion.div
+                key={game.title}
+                layout
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.5, delay: Math.min(i * 0.05, 0.3), ease: [0.16, 1, 0.3, 1] }}
+              >
+                <GameCoverCard
+                  title={game.title}
+                  genre={game.genre}
+                  tagline={game.tagline}
+                  platform={game.platform}
+                  image={game.image}
+                  gradient={game.gradient}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {games.length === 0 && (
+          <div className="py-24 text-center text-sm uppercase tracking-wide text-text-muted">
+            No games in this category
+          </div>
+        )}
+      </div>
     </div>
   );
 }

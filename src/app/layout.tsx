@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-surface text-text-primary">
+      <body className="flex min-h-full flex-col text-text-primary">
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9814325246389127"
@@ -37,9 +38,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           strategy="beforeInteractive"
         />
         <AuthProvider>
+          <SmoothScroll />
           <div className="noise-overlay" />
           <Navbar />
-          <main className="flex-1 relative z-10 pt-16">{children}</main>
+          <main className="relative z-10 flex-1">{children}</main>
         </AuthProvider>
       </body>
     </html>
