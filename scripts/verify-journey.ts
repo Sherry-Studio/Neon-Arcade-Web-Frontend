@@ -55,11 +55,27 @@ ok(SHOTS.length === 3, "three shots (logo · cabinet · digital)");
 
 // ── 3 · the camera must actually MOVE across every scene ──
 console.log("\nCAMERA MOTION");
+// The opening scenes deliberately hold a near-static frame: the reference
+// composition wants the sign large and steady, with life coming from the
+// particles, the light and pointer parallax rather than a travelling camera.
+// The transition scenes still have to genuinely move.
+const MIN_TRAVEL: Record<string, number> = {
+  void: 0.1,
+  form: 0.3,
+  hold: 0.3,
+  enterLogo: 1,
+  cabinet: 1,
+  crt: 1,
+  enterCrt: 1,
+  tunnel: 5,
+  worlds: 5,
+};
 for (const [n, a, b] of scenes) {
   const A = sampleCamera(a + (b - a) * 0.05);
   const B = sampleCamera(a + (b - a) * 0.95);
   const d = dist(A.pos, B.pos);
-  ok(d > 0.4, `camera travels ${d.toFixed(2)} units during "${n}"`);
+  const min = MIN_TRAVEL[n] ?? 0.4;
+  ok(d >= min, `camera travels ${d.toFixed(2)} units during "${n}" (min ${min})`);
 }
 
 // ── 4 · progress must never produce a stuck camera ──

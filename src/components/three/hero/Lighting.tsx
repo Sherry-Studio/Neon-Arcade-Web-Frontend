@@ -4,6 +4,7 @@ import { MutableRefObject, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { segment, range } from "@/hooks/useScrollProgress";
+import { getBlend } from "@/lib/themeStore";
 import { T } from "./timeline";
 
 /**
@@ -32,10 +33,14 @@ export default function Lighting({
     // everything dims out once we're through the glass
     const gone = 1 - range(p, T.enterCrtEnd - 0.02, T.enterCrtEnd + 0.01);
 
-    if (amb.current) amb.current.intensity = (0.02 + inRoom * 0.1) * gone;
-    if (key.current) key.current.intensity = inRoom * 90 * (1 - screen * 0.45) * gone;
-    if (rim.current) rim.current.intensity = inRoom * 34 * gone;
-    if (bounce.current) bounce.current.intensity = (2 + inRoom * 7) * gone;
+    // daylight fills the room, so the dramatic key/rim ease off
+    const b = getBlend();
+
+    if (amb.current) amb.current.intensity = (0.02 + inRoom * 0.1) * gone + b * 0.75;
+    if (key.current)
+      key.current.intensity = inRoom * 90 * (1 - screen * 0.45) * gone * (1 - b * 0.55);
+    if (rim.current) rim.current.intensity = inRoom * 34 * gone * (1 - b * 0.6);
+    if (bounce.current) bounce.current.intensity = (2 + inRoom * 7) * gone * (1 - b * 0.5);
   });
 
   return (

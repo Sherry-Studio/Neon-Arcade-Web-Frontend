@@ -50,13 +50,14 @@ export const SHOTS: Shot[] = [
     from: 0,
     to: T.enterLogoEnd,
     keys: [
-      { p: 0.0, pos: [0, 0.05, 15.5], look: [0, 0.05, 0], fov: 28 },
-      { p: T.voidEnd, pos: [0, 0.05, 12.6], look: [0, 0.05, 0], fov: 30 },
-      { p: T.formEnd, pos: [0, 0.08, 8.4], look: [0, 0.08, 0], fov: 36 },
-      { p: T.holdEnd, pos: [0, 0.08, 6.9], look: [0, 0.08, 0], fov: 38 },
+      // the sign is framed large from the first frame, as in the reference
+      { p: 0.0, pos: [0, 0.02, 8.6], look: [0, 0.02, 0], fov: 34 },
+      { p: T.voidEnd, pos: [0, 0.02, 8.4], look: [0, 0.02, 0], fov: 34 },
+      { p: T.formEnd, pos: [0, 0.04, 7.9], look: [0, 0.04, 0], fov: 35 },
+      { p: T.holdEnd, pos: [0, 0.05, 7.4], look: [0, 0.05, 0], fov: 36 },
       // drift onto the "O" of NEON, then straight through the glow
-      { p: T.enterLogoStart + 0.05, pos: [0.34, 0.5, 4.0], look: [0.42, 0.78, 0], fov: 42 },
-      { p: T.enterLogoEnd, pos: [0.46, 0.78, 0.15], look: [0.46, 0.78, -6], fov: 70 },
+      { p: T.enterLogoStart + 0.05, pos: [0.25, 0.4, 4.2], look: [0.36, 0.84, 0], fov: 42 },
+      { p: T.enterLogoEnd, pos: [0.36, 0.84, 0.15], look: [0.36, 0.84, -6], fov: 72 },
     ],
   },
   {

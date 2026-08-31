@@ -272,7 +272,7 @@ export default function CinematicHero() {
         {/* ── SCENE 2 · under the lit sign ── */}
         <div
           ref={taglineRef}
-          className="pointer-events-none absolute inset-x-0 bottom-[22%] z-[3] flex flex-col items-center gap-7 px-6 opacity-0"
+          className="pointer-events-none absolute inset-x-0 bottom-[18%] z-[3] flex flex-col items-center gap-6 px-6 opacity-0"
         >
           <span className="text-[11px] font-medium uppercase tracking-[0.52em] text-text-secondary sm:text-xs">
             Play. Compete. Repeat.
@@ -283,7 +283,8 @@ export default function CinematicHero() {
               <button
                 type="button"
                 onClick={enterThroughLetter}
-                className="group inline-flex items-center gap-3 border border-accent-cyan/40 bg-accent-cyan/[0.06] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.28em] text-white backdrop-blur-sm transition-colors duration-300 hover:border-accent-cyan hover:bg-accent-cyan hover:text-black"
+                data-cursor="hot"
+                className="group inline-flex items-center gap-3 border border-accent-cyan/45 bg-accent-cyan/[0.05] px-10 py-4 text-[11px] font-medium uppercase tracking-[0.3em] text-text-primary backdrop-blur-sm transition-all duration-300 hover:border-accent-cyan hover:bg-accent-cyan hover:text-surface hover:shadow-[0_0_44px_-6px_var(--c-accent-cyan)]"
               >
                 Enter Arcade
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -302,7 +303,7 @@ export default function CinematicHero() {
           <span className="text-[10px] uppercase tracking-[0.45em] text-text-muted">
             Cabinet 01
           </span>
-          <span className="font-[family-name:var(--font-heading)] text-sm font-bold uppercase tracking-[0.3em] text-white">
+          <span className="font-[family-name:var(--font-heading)] text-sm font-bold uppercase tracking-[0.3em] text-text-primary">
             The Original
           </span>
         </div>
@@ -335,7 +336,7 @@ export default function CinematicHero() {
             >
               {w.n}
             </span>
-            <h2 className="display mt-5 text-[clamp(2.25rem,8.5vw,6.5rem)] text-white">
+            <h2 className="display mt-5 text-[clamp(2.25rem,8.5vw,6.5rem)] text-text-primary">
               {w.title}
             </h2>
             <p className="mt-5 text-[11px] uppercase tracking-[0.42em] text-text-secondary sm:text-xs">
@@ -349,7 +350,7 @@ export default function CinematicHero() {
           ref={outroRef}
           className="absolute inset-0 z-[3] flex flex-col items-center justify-center px-[var(--gutter)] text-center opacity-0"
         >
-          <h1 className="display text-white [line-height:0.9]">
+          <h1 className="display text-text-primary [line-height:0.9]">
             <span className="block text-[clamp(2.75rem,12vw,9rem)]">NEON ARCADE</span>
           </h1>
           <p className="mt-6 text-[11px] uppercase tracking-[0.5em] text-text-secondary sm:text-xs">
@@ -359,7 +360,8 @@ export default function CinematicHero() {
             <MagneticButton>
               <Link
                 href="/games"
-                className="group inline-flex items-center gap-3 bg-white px-10 py-4 text-xs font-medium uppercase tracking-[0.24em] text-black transition-colors duration-300 hover:bg-accent-cyan"
+                data-cursor="hot"
+                className="group inline-flex items-center gap-3 bg-text-primary px-10 py-4 text-xs font-medium uppercase tracking-[0.24em] text-surface transition-colors duration-300 hover:bg-accent-cyan"
               >
                 Enter Arcade
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -367,7 +369,7 @@ export default function CinematicHero() {
             </MagneticButton>
             <Link
               href="#games"
-              className="border border-white/15 px-8 py-4 text-xs font-medium uppercase tracking-[0.24em] text-white transition-colors duration-300 hover:border-accent-cyan/60 hover:bg-accent-cyan/[0.06]"
+              className="border border-border px-8 py-4 text-xs font-medium uppercase tracking-[0.24em] text-text-primary transition-colors duration-300 hover:border-accent-cyan/60 hover:bg-accent-cyan/[0.06]"
             >
               Explore Games
             </Link>
@@ -381,7 +383,7 @@ export default function CinematicHero() {
           style={{
             opacity: 0.35,
             background:
-              "radial-gradient(68% 62% at 50% 50%, transparent 42%, rgba(0,0,0,0.9) 100%)",
+              "radial-gradient(72% 66% at 50% 50%, transparent 46%, color-mix(in srgb, var(--c-surface) 92%, transparent) 100%)",
           }}
         />
 
@@ -409,12 +411,12 @@ export default function CinematicHero() {
         {cinematic && (
           <div
             ref={hintRef}
-            className="pointer-events-none absolute bottom-9 left-1/2 z-[2] flex -translate-x-1/2 flex-col items-center gap-2.5"
+            className="pointer-events-none absolute bottom-7 left-1/2 z-[2] flex -translate-x-1/2 flex-col items-center gap-2"
           >
             <span className="text-[9px] uppercase tracking-[0.42em] text-text-muted">
               Scroll
             </span>
-            <span className="relative block h-10 w-px overflow-hidden bg-white/12">
+            <span className="relative block h-10 w-px overflow-hidden bg-text-muted/35">
               <span className="absolute left-0 top-0 h-3 w-px animate-[slide-in_1.7s_ease-in-out_infinite] bg-accent-cyan" />
             </span>
           </div>

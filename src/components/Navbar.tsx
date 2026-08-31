@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogIn } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Avatar from "@/components/ui/Avatar";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const navLinks = [
   { href: "/games", label: "GAMES" },
@@ -39,18 +40,18 @@ export default function Navbar() {
         <nav
           className={`pointer-events-auto mt-4 flex w-full max-w-6xl items-center justify-between rounded-full px-5 py-2.5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6 ${
             scrolled
-              ? "glass-strong shadow-[0_20px_60px_-30px_rgba(0,0,0,0.9)]"
+              ? "glass-strong shadow-[0_20px_60px_-30px_rgba(0,0,0,0.55)]"
               : "border border-transparent bg-transparent"
           }`}
         >
           <Link
             href="/"
-            className="font-[family-name:var(--font-heading)] text-sm font-bold uppercase tracking-[0.24em] text-white"
+            className="font-[family-name:var(--font-heading)] text-sm font-bold uppercase tracking-[0.24em] text-text-primary"
           >
             NEON<span className="text-accent-cyan">ARCADE</span>
           </Link>
 
-          <div className="hidden items-center gap-9 md:flex">
+          <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
@@ -61,7 +62,7 @@ export default function Navbar() {
                 >
                   <span
                     className={`transition-colors duration-300 ${
-                      active ? "text-white" : "text-text-secondary group-hover:text-white"
+                      active ? "text-text-primary" : "text-text-secondary group-hover:text-text-primary"
                     }`}
                   >
                     {link.label}
@@ -75,18 +76,20 @@ export default function Navbar() {
               );
             })}
 
+            <ThemeToggle />
+
             {session ? (
               <div className="flex items-center gap-4">
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-text-secondary transition-colors hover:text-white"
+                  className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-text-secondary transition-colors hover:text-text-primary"
                 >
                   <Avatar avatarId={session.user?.avatar} size={24} />
                   {session.user?.name}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted transition-colors hover:text-white"
+                  className="text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted transition-colors hover:text-text-primary"
                 >
                   Logout
                 </button>
@@ -94,7 +97,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="flex items-center gap-2 rounded-full border border-white/12 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors hover:border-accent-cyan/60 hover:bg-accent-cyan/[0.06]"
+                className="flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-text-primary transition-colors hover:border-accent-cyan/60 hover:bg-accent-cyan/[0.06]"
               >
                 <LogIn size={13} />
                 Login
@@ -102,13 +105,16 @@ export default function Navbar() {
             )}
           </div>
 
+          <div className="flex items-center gap-3 md:hidden">
+          <ThemeToggle />
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="text-text-secondary transition-colors hover:text-white md:hidden"
+            className="text-text-secondary transition-colors hover:text-text-primary"
             aria-label="Menu"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
+          </div>
         </nav>
       </header>
 
@@ -132,7 +138,7 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="font-[family-name:var(--font-heading)] text-3xl font-bold uppercase tracking-[0.12em] text-white"
+                    className="font-[family-name:var(--font-heading)] text-3xl font-bold uppercase tracking-[0.12em] text-text-primary"
                   >
                     {link.label}
                   </Link>
@@ -168,7 +174,7 @@ export default function Navbar() {
                   <Link
                     href="/login"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white"
+                    className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-text-primary"
                   >
                     <LogIn size={16} />
                     Login
